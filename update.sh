@@ -55,16 +55,20 @@ docker run \
   --restart unless-stopped \
   linuxserver/jackett:latest
 
-echo "Running google home"
+echo "Running plex"
 docker run \
-   --detach \
-   --publish 8099:8099 \
-   --restart always \
-   -e KODI_PROTOCOL="http" \
-   -e KODI_IP="192.168.0.105" \
-   -e KODI_PORT="8080" \
-   -e KODI_USER="kodi" \
-   -e KODI_PASSWORD="st1ckman" \
-   -e AUTH_TOKEN="st1ckman" \
-   --name googlehomekodi \
-   omertu/googlehomekodi
+  --name=plex \
+  --net=host \
+  -d
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e VERSION=docker \
+  -e UMASK_SET=022 `#optional` \
+  -e PLEX_CLAIM= `#optional` \
+  -v /home/pi/plex-config:/config \
+  -v /media/media/tv:/tv \
+  -v /media/media/movies:/movies \
+  -v /media/media/music:/music \
+  --restart unless-stopped \
+  linuxserver/plex
+
