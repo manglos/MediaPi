@@ -55,20 +55,3 @@ docker run \
   --restart unless-stopped \
   linuxserver/jackett:latest
 
-echo "Running plex"
-docker run \
-  --name=plex \
-  --net=host \
-  -d
-  -e PUID=1000 \
-  -e PGID=1000 \
-  -e VERSION=docker \
-  -e UMASK_SET=022 `#optional` \
-  -e PLEX_CLAIM= `#optional` \
-  -v /home/pi/plex-config:/config \
-  -v /media/media/tv:/tv \
-  -v /media/media/movies:/movies \
-  -v /media/media/music:/music \
-  --restart unless-stopped \
-  linuxserver/plex
-
