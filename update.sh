@@ -40,7 +40,7 @@ docker run \
   -v /media/media/movies:/movies \
   -v /media/media/torrents/downloads:/deluge/torrents/downloads \
   --restart unless-stopped \
-  linuxserver/radarr
+  linuxserver/radarr:3.0.0.2429-ls37
 
 echo "Running jackett"
 docker run \
