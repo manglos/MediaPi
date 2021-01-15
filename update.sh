@@ -22,7 +22,7 @@ docker run \
   -e UMASK_SET=022 `#optional` \
   -p 8989:8989 \
   -v /home/pi/sonarr-config:/config \
-  -v /media/media/tv:/tv \
+  -v /media/shield/NVIDIA_SHIELD/tv/:/tv \
   -v /media/media/torrents/downloads:/deluge/torrents/downloads \
   --restart unless-stopped \
   linuxserver/sonarr:preview
@@ -37,7 +37,7 @@ docker run \
   -e UMASK_SET=022 `#optional` \
   -p 7878:7878 \
   -v /home/pi/radarr-config:/config \
-  -v /media/media/movies:/movies \
+  -v /media/shield/NVIDIA_SHIELD/movies/:/movies \
   -v /media/media/torrents/downloads:/deluge/torrents/downloads \
   --restart unless-stopped \
   linuxserver/radarr:3.0.0.2429-ls37
