@@ -10,7 +10,7 @@ docker pull linuxserver/radarr
 docker pull linuxserver/jackett
 
 echo "Running deluge"
-docker run --detach -e UMASK=022 --volume /media/shield/NVIDIA_SHIELD:/deluge --volume /etc/localtime:/etc/localtime:ro --net=host --restart=unless-stopped --name=deluge mjenz/rpi-deluge
+docker run --detach --volume /media/shield/NVIDIA_SHIELD/deluge:/deluge --volume /etc/localtime:/etc/localtime:ro -e PUID=1000 -e PGID=1000 --net=host --restart=unless-stopped --name=deluge mjenz/rpi-deluge
 
 echo "Running sonarr"
 docker run \
@@ -22,8 +22,7 @@ docker run \
   -e UMASK_SET=022 `#optional` \
   -p 8989:8989 \
   -v /home/pi/sonarr-config:/config \
-  -v /media/shield/NVIDIA_SHIELD/tv/:/tv \
-  -v /media/shield/NVIDIA_SHIELD/torrents/downloads:/deluge/torrents/downloads \
+  -v /media/shield/NVIDIA_SHIELD:/shield \
   --restart unless-stopped \
   linuxserver/sonarr:preview
 
@@ -37,8 +36,7 @@ docker run \
   -e UMASK_SET=022 `#optional` \
   -p 7878:7878 \
   -v /home/pi/radarr-config:/config \
-  -v /media/shield/NVIDIA_SHIELD/movies/:/movies \
-  -v /media/shield/NVIDIA_SHIELD/torrents/downloads:/deluge/torrents/downloads \
+  -v /media/shield/NVIDIA_SHIELD:/shield \
   --restart unless-stopped \
   linuxserver/radarr:3.0.0.2429-ls37
 
@@ -51,7 +49,6 @@ docker run \
   -e TZ=America/New_York  \
   -p 9117:9117 \
   -v /home/pi/jackett:/config \
-  -v /media/shield/NVIDIA_SHIELD/torrents/downloads:/downloads \
+  -v /media/shield/NVIDIA_SHIELD/deluge/downloads:/downloads \
   --restart unless-stopped \
   linuxserver/jackett:latest
-
