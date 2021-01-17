@@ -10,7 +10,7 @@ docker pull linuxserver/radarr
 docker pull linuxserver/jackett
 
 echo "Running deluge"
-docker run --detach --volume /media/shield/NVIDIA_SHIELD/deluge:/deluge --volume /etc/localtime:/etc/localtime:ro -e PUID=1000 -e PGID=1000 --net=host --restart=unless-stopped --name=deluge mjenz/rpi-deluge
+docker run -d   --name=deluge   --net=host   -e PUID=1000   -e PGID=1000   -e TZ=Europe/London   -v /home/pi/deluge-config:/config   -v /media/shield/NVIDIA_SHIELD/deluge/downloads:/downloads   --restart unless-stopped   ghcr.io/linuxserver/deluge
 
 echo "Running sonarr"
 docker run \
