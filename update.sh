@@ -6,7 +6,7 @@ docker rm $(docker ps -a -q)
 echo "Updating docker images"
 docker pull mjenz/rpi-deluge
 docker pull linuxserver/sonarr:preview
-docker pull linuxserver/radarr
+docker pull linuxserver/radarr:preview
 docker pull linuxserver/jackett
 
 echo "Running deluge"
@@ -38,7 +38,7 @@ docker run \
   -v /home/pi/radarr-config:/config \
   -v /media/shield/NVIDIA_SHIELD:/shield \
   --restart unless-stopped \
-  linuxserver/radarr:3.0.0.2429-ls37
+  linuxserver/radarr:3.0.0.2998-ls7
 
 echo "Running jackett"
 docker run \
