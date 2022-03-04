@@ -4,13 +4,25 @@ docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 
 echo "Updating docker images"
-docker pull mjenz/rpi-deluge
-docker pull linuxserver/sonarr:preview
-docker pull linuxserver/radarr:preview
+docker pull lscr.io/linuxserver/transmission
+docker pull linuxserver/sonarr
+docker pull linuxserver/radarr
 docker pull linuxserver/jackett
 
-echo "Running deluge"
-docker run -d   --name=deluge   --net=host   -e PUID=1000   -e PGID=1000   -e TZ=Europe/London   -v /home/pi/deluge-config:/config   -v /media/shield/NVIDIA_SHIELD/deluge/downloads:/downloads   --restart unless-stopped   ghcr.io/linuxserver/deluge
+echo "Running transmission"
+docker run -d \
+  --name=transmission \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=America/New_York \
+  -p 9091:9091 \
+  -p 51413:51413 \
+  -p 51413:51413/udp \
+  -v /home/pi/transmission-config:/config \
+  -v /media/shield/NVIDIA_SHIELD/transmission/downloads:/downloads \
+  -v /media/shield/NVIDIA_SHIELD/transmission/watch:/watch \
+  --restart unless-stopped \
+  lscr.io/linuxserver/transmission
 
 echo "Running sonarr"
 docker run \
@@ -24,7 +36,7 @@ docker run \
   -v /home/pi/sonarr-config:/config \
   -v /media/shield/NVIDIA_SHIELD:/shield \
   --restart unless-stopped \
-  linuxserver/sonarr:preview
+  linuxserver/sonarr
 
 echo "Running radarr"
 docker run \
@@ -38,7 +50,7 @@ docker run \
   -v /home/pi/radarr-config:/config \
   -v /media/shield/NVIDIA_SHIELD:/shield \
   --restart unless-stopped \
-  linuxserver/radarr:3.0.0.2998-ls7
+  linuxserver/radarr
 
 echo "Running jackett"
 docker run \
@@ -49,6 +61,6 @@ docker run \
   -e TZ=America/New_York  \
   -p 9117:9117 \
   -v /home/pi/jackett:/config \
-  -v /media/shield/NVIDIA_SHIELD/deluge/downloads:/downloads \
+  -v /media/shield/NVIDIA_SHIELD/transmission/downloads:/downloads \
   --restart unless-stopped \
-  linuxserver/jackett:latest
+  linuxserver/jackett
